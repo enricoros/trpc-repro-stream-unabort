@@ -46,8 +46,16 @@ const user = await trpc.user.byId.query('1');
 //    ^?
 console.log('User 1:', user);
 
-const iterable = await trpc.examples.iterable.query();
+const ac = new AbortController();
+
+const iterable = await trpc.examples.iterable.query(undefined, { signal: ac.signal });
+
+// schedule an abort in 2 seconds
+setTimeout(() => {
+  console.log('Aborting!');
+  ac.abort();
+}, 2000);
 
 for await (const i of iterable) {
-  console.log('Iterable:', i);
+  console.log('Iterable:', i, ac.signal.aborted ? '(SHALL HAVE BEEN ABORTED)' : '');
 }

@@ -35,10 +35,13 @@ const appRouter = router({
   },
   examples: {
     iterable: publicProcedure.query(async function* () {
-      for (let i = 0; i < 3; i++) {
+      console.log('examples.iterable begin');
+      for (let i = 0; i < 8; i++) {
         await new Promise((resolve) => setTimeout(resolve, 500));
         yield i;
+        console.log('examples.iterable yield', i);
       }
+      console.log('examples.iterable end');
     }),
   },
 });
