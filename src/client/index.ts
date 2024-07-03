@@ -57,5 +57,12 @@ setTimeout(() => {
 }, 2000);
 
 for await (const i of iterable) {
+  if (ac.signal.aborted)
+    break;
   console.log('Iterable:', i, ac.signal.aborted ? '(SHALL HAVE BEEN ABORTED)' : '');
 }
+
+// Wait for a while
+console.log('Waiting for 15 seconds...');
+await new Promise((resolve) => setTimeout(resolve, 15000));
+console.log('Done!');
